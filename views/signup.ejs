@@ -1,0 +1,24 @@
+<h1> Signup page</h1>
+<form action="/api/v1/auth/register" method="POST">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    <div>
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" required>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div>
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" required></textarea>
+    </div>
+    <button type="submit">Sign Up</button>
+</form>
