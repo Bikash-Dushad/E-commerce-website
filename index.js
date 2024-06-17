@@ -7,6 +7,8 @@ const app = express()
 const PORT = process.env.PORT || 6000;
 require('./config/mongoose');
 const expressLayout = require("express-ejs-layouts")
+
+
 app.use(expressLayout)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -14,6 +16,7 @@ app.use(morgan('dev'));
 
 app.set('view engine', 'ejs');
 app.set('views',path.join(__dirname, 'views'));
+app.use("/images", express.static('uploads'))
 
 app.use('/', require('./routes'));
 
