@@ -16,7 +16,7 @@ module.exports.addProducts = async (req, res) => {
             name,
             desc,
             price,
-            imageUrl: image_file,
+            image: image_file,
             category,
         };
          // Ensure sizes is stored only if selected
@@ -50,7 +50,10 @@ module.exports.getAllProducts = async (req, res)=>{
 }
 
 module.exports.updateProductPage = async (req, res)=>{
-    return res.render("updateProduct")
+    const product = await Product.find({})
+    return res.render("updateProduct",{
+        product: product
+})
 }
 
 //update the product
@@ -60,26 +63,27 @@ module.exports.updateProduct = async (req, res)=>{
         if(!product){
             return res.status(404).send({success: false, message: " product not found"})
         }
-        let image_file = `${req.file.filename}`;
+        if(req.file){
+            fs.unlink(`uploads/${product.image}`, (err) => {
+                if (err) console.log(err);
+            });
+            product.image = `${req.file.filename}`;
+        }
         const { name, desc, price, category, sizes } = req.body;
 
-        let updateProductData = {
-            name,
-            desc,
-            price,
-            imageUrl: image_file,
-            category,
-        };
-         // Ensure sizes is stored only if selected
-         if (sizes) {
-            productData.sizes = Array.isArray(sizes) ? sizes : [sizes];
-        }
-        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, {updateProductData})
+        product.name = name || product.name;
+        product.desc = desc || product.desc;
+        product.price = price || product.price;
+        product.category = category || product.category;
 
-        
-        await updatedProduct.save();
-        res.status(200).send({success: true, message: " product updated successfully"})
-        
+        // Ensure sizes is stored only if selected
+        if (sizes) {
+            product.sizes = Array.isArray(sizes) ? sizes : [sizes];
+        }
+
+        await product.save();
+        res.status(200).send({ success: true, message: "Product updated successfully" });
+
     } catch (error) {
         console.log(error)
         res.status(500).send({success: false, message: " error in update product api"})

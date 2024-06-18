@@ -18,7 +18,7 @@ router.post('/addProduct', upload.single('image') , productController.addProduct
 router.get('/getAllProduct', productController.getAllProducts)
 
 router.get("/updateProductPage", productController.updateProductPage)
-router.put('/updateProduct/:id', productController.updateProduct)
+router.post('/updateProduct/:id', upload.single('image'), productController.updateProduct)
 
 router.post('/deleteProduct/:id',productController.deleteProduct)
 

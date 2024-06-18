@@ -6,7 +6,7 @@ const productSchema = new Schema({
     name: { type: String, required: true},
     desc: { type: String, required: true},
     price: { type: String, default: 99 },
-    imageUrl: { type: String, required: true },
+    image: { type: String, required: true },
     category: { type: String, required: true },
     sizes: [{ type: String, enum:['M', 'XL', 'S']}],
 },
